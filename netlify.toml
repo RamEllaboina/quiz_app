@@ -1,5 +1,5 @@
 [build]
-  command = "echo 'No build step needed for static frontend'"
+  command = "npm install && echo 'No build step needed for static frontend'"
   publish = "frontend"
 
 [build.environment]
