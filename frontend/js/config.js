@@ -3,9 +3,10 @@ const config = {
     development: 'http://localhost:3000/api',
 
     // Production URL (Update this when deploying)
-    // If hosting frontend and backend together: '/api'
-    // If hosting separately: 'https://your-backend-url.com/api'
-    production: '/api', // Default to relative path for unified deployment
+    // Dynamic API Base URL
+    production: window.location.hostname === 'localhost' 
+        ? 'http://localhost:3000/api' 
+        : '/api', // Netlify functions
 };
 
 // Determine environment
