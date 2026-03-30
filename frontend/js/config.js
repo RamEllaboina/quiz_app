@@ -3,10 +3,9 @@ const config = {
     development: 'http://localhost:3000/api',
 
     // Production URL (Update this when deploying)
-    // Dynamic API Base URL
-    production: window.location.hostname === 'localhost' 
-        ? 'http://localhost:3000/api' 
-        : '/api', // Netlify functions
+    production: window.location.hostname.includes('vercel.app')
+        ? '/api'  // Vercel serverless functions
+        : 'https://your-backend-app.onrender.com/api' // Fallback
 };
 
 // Determine environment

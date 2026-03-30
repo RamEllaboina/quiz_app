@@ -1,0 +1,12 @@
+{
+  "name": "quiz-app-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Quiz Application",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static build - no compilation needed'",
+    "start": "echo 'Frontend served by Vercel'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
