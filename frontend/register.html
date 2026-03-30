@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join the Squad | Quiz Master</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- POP THEME VARIABLES --- */
+        :root {
+            --bg-color: #f0f0f0;
+            --card-bg: #ffffff;
+            --ink: #2d3436;
+            /* Soft Black */
+            --primary: #6c5ce7;
+            /* Vibrant Purple */
+            --accent: #ffeaa7;
+            /* Pastel Yellow */
+            --border-width: 3px;
+            --shadow-offset: 6px;
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            /* Dot Grid Pattern */
+            background-image: radial-gradient(var(--ink) 1px, transparent 1px);
+            background-size: 24px 24px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--ink);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        /* --- THE CARD (Neo-Brutalist Style) --- */
+        .auth-card {
+            background: var(--card-bg);
+            border: var(--border-width) solid var(--ink);
+            border-radius: var(--radius);
+            padding: 40px;
+            /* The "Hard Shadow" Look */
+            box-shadow: var(--shadow-offset) var(--shadow-offset) 0px var(--ink);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        /* Decoration Sticker */
+        .sticker-badge {
+            position: absolute;
+            top: -25px;
+            right: -15px;
+            background: var(--accent);
+            border: var(--border-width) solid var(--ink);
+            padding: 10px 15px;
+            transform: rotate(5deg);
+            font-weight: 900;
+            font-size: 14px;
+            box-shadow: 4px 4px 0px var(--ink);
+            z-index: 10;
+        }
+
+        /* --- HEADER --- */
+        .auth-card h1 {
+            font-weight: 900;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .auth-card h1 i {
+            color: var(--primary);
+            /* Wiggle Animation */
+            animation: wiggle 2s linear infinite;
+        }
+
+        @keyframes wiggle {
+
+            0%,
+            7% {
+                transform: rotateZ(0);
+            }
+
+            15% {
+                transform: rotateZ(-15deg);
+            }
+
+            20% {
+                transform: rotateZ(10deg);
+            }
+
+            25% {
+                transform: rotateZ(-10deg);
+            }
+
+            30% {
+                transform: rotateZ(6deg);
+            }
+
+            35% {
+                transform: rotateZ(-4deg);
+            }
+
+            40%,
+            100% {
+                transform: rotateZ(0);
+            }
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #636e72;
+            font-weight: 500;
+            margin-bottom: 35px;
+            font-size: 1.1rem;
+        }
+
+        /* --- FORM ELEMENTS --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            background: #fff;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        /* Input Focus: Hard shadow, no blur */
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 4px 4px 0px var(--ink);
+            transform: translate(-2px, -2px);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            color: #636e72;
+            font-weight: 500;
+        }
+
+        /* --- BUTTONS (Tactile) --- */
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 16px;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 4px 4px 0px var(--ink);
+            flex: 1.5;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--ink);
+            box-shadow: 4px 4px 0px var(--ink);
+            flex: 1;
+        }
+
+        /* Click Effect: Button moves down and shadow disappears */
+        .btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px var(--ink);
+        }
+
+        .btn:hover {
+            filter: brightness(1.1);
+        }
+
+        /* --- PASSWORD STRENGTH (Blocks) --- */
+        .password-strength {
+            height: 8px;
+            margin-top: 8px;
+            display: flex;
+            gap: 4px;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .strength-segment {
+            flex: 1;
+            background: #dfe6e9;
+            border: 1px solid var(--ink);
+            border-radius: 4px;
+        }
+
+        /* Colors for JS to toggle */
+        .strength-weak .strength-segment:nth-child(1) {
+            background: #ff7675;
+        }
+
+        .strength-fair .strength-segment:nth-child(1),
+        .strength-fair .strength-segment:nth-child(2) {
+            background: #ffeaa7;
+        }
+
+        .strength-good .strength-segment:nth-child(1),
+        .strength-good .strength-segment:nth-child(2),
+        .strength-good .strength-segment:nth-child(3) {
+            background: #55efc4;
+        }
+
+        .strength-strong .strength-segment:nth-child(n) {
+            background: #00b894;
+        }
+
+        /* --- INFO BOX --- */
+        .info-box {
+            margin-top: 30px;
+            background: #dfe6e9;
+            border: 2px solid var(--ink);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .info-box h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- FOOTER LINK --- */
+        .back-home {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .back-home a {
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 700;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 2px;
+        }
+
+        .back-home a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* --- MESSAGES --- */
+        .message {
+            padding: 12px;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message.success {
+            background: #55efc4;
+            color: var(--ink);
+        }
+
+        .message.error {
+            background: #ff7675;
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .auth-card {
+                padding: 25px;
+                box-shadow: 5px 5px 0 var(--ink);
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .sticker-badge {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="auth-card">
+
+            <div class="sticker-badge">FREE ACCESS</div>
+
+            <h1><i class="fas fa-bolt"></i> Join Now</h1>
+            <p class="subtitle">Challenge your brain. Level up.</p>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="e.g. John Doe" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Pick a cool handle" required>
+                    <small>Letters & numbers only, >3 chars</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="branch">Branch</label>
+                    <select id="branch" required>
+                        <option value="" disabled selected>Select Branch</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Make it strong!" required>
+
+                    <div class="password-strength" id="passwordStrengthVisual">
+                        <div class="strength-segment"></div>
+                        <div class="strength-segment"></div>
+                        <div class="strength-segment"></div>
+                        <div class="strength-segment"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="One more time" required>
+                </div>
+
+                <div id="message" class="message hidden"></div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        Sign Up <i class="fas fa-check"></i>
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='login.html'">
+                        Login
+                    </button>
+                </div>
+            </form>
+
+            <div class="info-box">
+                <h3><i class="fas fa-bell"></i> Heads Up!</h3>
+                <p>New accounts require Admin Approval. You'll get access within <strong>1-2 hours</strong>.</p>
+            </div>
+
+            <div class="back-home">
+                <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/user-auth.js"></script>
+    <script src="js/register.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script>
+        // Updated Password Strength Logic for the new "Block" visual
+        document.getElementById('password').addEventListener('input', function (e) {
+            const password = e.target.value;
+            const visual = document.getElementById('passwordStrengthVisual');
+
+            let strength = 0;
+            if (password.length >= 4) strength++;
+            if (/[a-zA-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            if (password.length === 0) {
+                visual.style.display = 'none';
+                visual.className = 'password-strength';
+            } else {
+                visual.style.display = 'flex';
+                visual.className = 'password-strength'; // Reset classes
+
+                if (strength === 1) visual.classList.add('strength-weak');
+                else if (strength === 2) visual.classList.add('strength-fair');
+                else if (strength === 3) visual.classList.add('strength-good');
+                else if (strength >= 4) visual.classList.add('strength-strong');
+            }
+        });
+    </script>
+</body>
+
+</html>

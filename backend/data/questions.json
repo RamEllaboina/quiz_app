@@ -1,0 +1,226 @@
+{
+  "java": {
+    "easy": [
+      {
+        "id": 1,
+        "question": "What is Java primarily used for?",
+        "options": [
+          "Web Browsing",
+          "Mobile App Development",
+          "Game Development",
+          "All of the above"
+        ],
+        "answer": "All of the above",
+        "explanation": "Java is a versatile language used for web applications, mobile apps (Android), games, and enterprise systems."
+      },
+      {
+        "id": 2,
+        "question": "Which company originally developed Java?",
+        "options": [
+          "Microsoft",
+          "Sun Microsystems",
+          "Google",
+          "Oracle"
+        ],
+        "answer": "Sun Microsystems",
+        "explanation": "Java was originally developed by James Gosling at Sun Microsystems in 1995."
+      },
+      {
+        "id": 3,
+        "question": "What does JVM stand for?",
+        "options": [
+          "Java Variable Machine",
+          "Java Virtual Machine",
+          "Java Verified Machine",
+          "Java Visual Machine"
+        ],
+        "answer": "Java Virtual Machine",
+        "explanation": "JVM (Java Virtual Machine) is the runtime engine that executes Java bytecode."
+      }
+    ],
+    "medium": [
+      {
+        "id": 4,
+        "question": "Which keyword is used for inheritance in Java?",
+        "options": [
+          "inherits",
+          "extends",
+          "implements",
+          "super"
+        ],
+        "answer": "extends",
+        "explanation": "The 'extends' keyword is used for class inheritance in Java."
+      },
+      {
+        "id": 5,
+        "question": "What is the default value of a boolean variable in Java?",
+        "options": [
+          "true",
+          "false",
+          "null",
+          "0"
+        ],
+        "answer": "false",
+        "explanation": "The default value of a boolean variable is false in Java."
+      }
+    ],
+    "hard": [
+      {
+        "id": 6,
+        "question": "Which collection class provides O(1) time complexity for add, remove, and contains operations?",
+        "options": [
+          "ArrayList",
+          "LinkedList",
+          "HashSet",
+          "TreeSet"
+        ],
+        "answer": "HashSet",
+        "explanation": "HashSet provides O(1) time complexity for basic operations when hash function disperses elements properly."
+      }
+    ]
+  },
+  "html": {
+    "easy": [
+      {
+        "id": 7,
+        "question": "What does HTML stand for?",
+        "options": [
+          "Hyper Text Markup Language",
+          "High Tech Modern Language",
+          "Hyper Transfer Markup Language",
+          "Home Tool Markup Language"
+        ],
+        "answer": "Hyper Text Markup Language",
+        "explanation": "HTML stands for Hyper Text Markup Language."
+      },
+      {
+        "id": 8,
+        "question": "Which tag is used for the largest heading?",
+        "options": [
+          "<h6>",
+          "<heading>",
+          "<h1>",
+          "<head>"
+        ],
+        "answer": "<h1>",
+        "explanation": "<h1> is the largest heading tag in HTML."
+      }
+    ],
+    "medium": [
+      {
+        "id": 9,
+        "question": "Which attribute is used to provide a unique name for an HTML element?",
+        "options": [
+          "class",
+          "id",
+          "name",
+          "type"
+        ],
+        "answer": "id",
+        "explanation": "The 'id' attribute provides a unique identifier for an HTML element."
+      }
+    ],
+    "hard": [
+      {
+        "id": 10,
+        "question": "Which HTML5 element is used for drawing graphics via scripting?",
+        "options": [
+          "<svg>",
+          "<canvas>",
+          "<graphics>",
+          "<draw>"
+        ],
+        "answer": "<canvas>",
+        "explanation": "The <canvas> element is used to draw graphics via JavaScript."
+      }
+    ]
+  },
+  "javascript": {
+    "easy": [
+      {
+        "id": 11,
+        "question": "Which keyword is used to declare a variable in modern JavaScript?",
+        "options": [
+          "var",
+          "let",
+          "const",
+          "All of the above"
+        ],
+        "answer": "All of the above",
+        "explanation": "JavaScript supports var, let, and const for variable declaration."
+      }
+    ],
+    "medium": [
+      {
+        "id": 12,
+        "question": "What will 'typeof null' return in JavaScript?",
+        "options": [
+          "null",
+          "object",
+          "undefined",
+          "string"
+        ],
+        "answer": "object",
+        "explanation": "typeof null returns 'object', which is a known bug in JavaScript."
+      }
+    ],
+    "hard": [
+      {
+        "id": 13,
+        "question": "What is the output of: console.log(0.1 + 0.2 === 0.3);",
+        "options": [
+          "true",
+          "false",
+          "undefined",
+          "NaN"
+        ],
+        "answer": "false",
+        "explanation": "Due to floating point precision issues, 0.1 + 0.2 is not exactly equal to 0.3 in JavaScript."
+      }
+    ]
+  },
+  "python": {
+    "easy": [
+      {
+        "id": 14,
+        "question": "Python is an example of what type of programming language?",
+        "options": [
+          "Compiled language",
+          "Interpreted language",
+          "Assembly language",
+          "Machine language"
+        ],
+        "answer": "Interpreted language",
+        "explanation": "Python is an interpreted language, meaning it executes code line by line."
+      }
+    ],
+    "medium": [
+      {
+        "id": 15,
+        "question": "Which method is used to add an element to a list in Python?",
+        "options": [
+          "append()",
+          "add()",
+          "insert()",
+          "push()"
+        ],
+        "answer": "append()",
+        "explanation": "The append() method adds an element to the end of a list."
+      }
+    ],
+    "hard": [
+      {
+        "id": 16,
+        "question": "What is the time complexity of accessing an element in a Python dictionary?",
+        "options": [
+          "O(n)",
+          "O(log n)",
+          "O(1)",
+          "O(n²)"
+        ],
+        "answer": "O(1)",
+        "explanation": "Dictionary access is O(1) on average due to hash table implementation."
+      }
+    ]
+  }
+}
