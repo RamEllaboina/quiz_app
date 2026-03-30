@@ -1,6 +1,6 @@
 [build]
-  command = "npm run build"
-  publish = "frontend/dist"
+  command = "echo 'No build step needed for static frontend'"
+  publish = "frontend"
 
 [build.environment]
   NODE_VERSION = "18"

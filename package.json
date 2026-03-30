@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Root deployment script",
     "scripts": {
+        "build": "echo 'No build step needed for static frontend'",
         "postinstall": "cd backend && npm install",
         "start": "cd backend && node server.js"
     },
