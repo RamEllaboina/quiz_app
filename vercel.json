@@ -16,6 +16,10 @@
       "dest": "/frontend/admin.html"
     },
     {
+      "src": "/admin-login.html",
+      "dest": "/frontend/admin-login.html"
+    },
+    {
       "src": "/login.html",
       "dest": "/frontend/login.html"
     },
