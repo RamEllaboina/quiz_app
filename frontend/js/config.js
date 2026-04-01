@@ -2,10 +2,8 @@ const config = {
     // Development URL (Localhost)
     development: 'http://localhost:3000/api',
 
-    // Production URL (Update this when deploying)
-    production: window.location.hostname.includes('vercel.app')
-        ? '/api'  // Vercel serverless functions
-        : 'https://your-backend-app.onrender.com/api' // Fallback
+    // Production URL (Render Backend)
+    production: 'https://quiz-app-backend.onrender.com/api'
 };
 
 // Determine environment

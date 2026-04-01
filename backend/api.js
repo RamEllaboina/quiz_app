@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/quizapp')
+mongoose.connect('mongodb+srv://RamEllaboina:Sharanyaram1418@cluster0.piyusds.mongodb.net/?appName=Cluster0')
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.error('MongoDB Connection Error:', err));
 
@@ -91,6 +91,57 @@ app.get('/api/health', (req, res) => {
     timestamp: new Date().toISOString(),
     platform: 'vercel'
   });
+});
+
+// Initialize sample data
+app.post('/api/init-data', async (req, res) => {
+  try {
+    // Clear existing data
+    await Branch.deleteMany({});
+    await Subject.deleteMany({});
+    
+    // Create branches
+    const branches = await Branch.insertMany([
+      { name: 'Computer Science', description: 'Computer Science and Engineering' },
+      { name: 'Electronics', description: 'Electronics and Communication Engineering' },
+      { name: 'Mechanical', description: 'Mechanical Engineering' },
+      { name: 'Civil', description: 'Civil Engineering' }
+    ]);
+    
+    // Create subjects (2 per branch)
+    const subjects = await Subject.insertMany([
+      // Computer Science subjects
+      { name: 'Data Structures', description: 'Study of data structures and algorithms', branches: [branches[0]._id] },
+      { name: 'Database Systems', description: 'Database design and management', branches: [branches[0]._id] },
+      
+      // Electronics subjects
+      { name: 'Digital Electronics', description: 'Digital circuits and systems', branches: [branches[1]._id] },
+      { name: 'Microprocessors', description: 'Microprocessor architecture and programming', branches: [branches[1]._id] },
+      
+      // Mechanical subjects
+      { name: 'Thermodynamics', description: 'Study of heat and energy transfer', branches: [branches[2]._id] },
+      { name: 'Fluid Mechanics', description: 'Study of fluid behavior and forces', branches: [branches[2]._id] },
+      
+      // Civil subjects
+      { name: 'Structural Analysis', description: 'Analysis of structures and loads', branches: [branches[3]._id] },
+      { name: 'Surveying', description: 'Land surveying and measurement', branches: [branches[3]._id] }
+    ]);
+    
+    res.json({
+      success: true,
+      message: 'Sample data initialized successfully',
+      data: {
+        branches: branches.length,
+        subjects: subjects.length
+      }
+    });
+  } catch (error) {
+    console.error('Init data error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error initializing data'
+    });
+  }
 });
 
 // Auth Routes
