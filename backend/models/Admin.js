@@ -49,8 +49,11 @@ adminSchema.pre('save', async function (next) {
     next();
 });
 
-// Compare password method (PLAIN TEXT)
+// Compare password method
 adminSchema.methods.comparePassword = async function (candidatePassword) {
+    if (this.password && (this.password.startsWith('$2a$') || this.password.startsWith('$2b$'))) {
+        return await bcrypt.compare(candidatePassword, this.password);
+    }
     return candidatePassword === this.password;
 };
 
