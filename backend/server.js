@@ -28,6 +28,12 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Disable caching for API routes (fixes Vercel returning stale data after refresh)
+app.use('/api', (req, res, next) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
+});
+
 // Static files (served from frontend directory)
 app.use(express.static(path.join(__dirname, '../frontend')));
 
