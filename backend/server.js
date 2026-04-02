@@ -52,10 +52,7 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// Serve frontend for any unknown route (SPA support)
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
+// (SPA fallback removed - Vercel handles frontend UI routing automatically)
 
 // Error handling middleware
 app.use((err, req, res, next) => {

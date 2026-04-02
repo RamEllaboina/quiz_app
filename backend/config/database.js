@@ -33,7 +33,7 @@ const connectDB = async () => {
 
     } catch (error) {
         console.error('❌ MongoDB Connection Failed:', error.message);
-        process.exit(1);
+        // Do not process.exit(1) in a serverless environment! It will cause 502/500 errors.
     }
 };
 
