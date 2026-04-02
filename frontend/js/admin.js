@@ -573,6 +573,7 @@ async function loadQuizzes() {
             const subjectData = await subjectRes.json();
 
             if (subjectData.success) {
+                subjects = subjectData.subjects; // Update global subjects array for Modals
                 const validSubjectIds = subjectData.subjects.map(s => s._id);
                 quizzes = quizzes.filter(q => validSubjectIds.includes(q.subject?._id || q.subject));
 
