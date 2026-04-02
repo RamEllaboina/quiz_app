@@ -4,6 +4,10 @@ const MONGODB_URI = 'mongodb+srv://RamEllaboina:Sharanyaram1418@cluster0.piyusds
 
 const connectDB = async () => {
     try {
+        if (mongoose.connection.readyState >= 1) {
+            console.log('✅ MongoDB connection already established');
+            return;
+        }
         await mongoose.connect(MONGODB_URI);
         console.log('✅ MongoDB Connected Successfully');
 

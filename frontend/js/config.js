@@ -2,8 +2,8 @@ const config = {
     // Development URL (Localhost)
     development: 'http://localhost:3000/api',
 
-    // Production URL (Render Backend)
-    production: 'https://quiz-app-backend.onrender.com/api'
+    // Production URL (Vercel Backend)
+    production: '/api'
 };
 
 // Determine environment

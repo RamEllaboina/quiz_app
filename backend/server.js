@@ -93,42 +93,47 @@ const checkExpiredUsers = async () => {
     }
 };
 
-// Check every hour
-setInterval(checkExpiredUsers, 3600000);
-// Run once on startup
-setTimeout(checkExpiredUsers, 5000);
+if (!process.env.VERCEL) {
+    // Check every hour
+    setInterval(checkExpiredUsers, 3600000);
+    // Run once on startup
+    setTimeout(checkExpiredUsers, 5000);
 
-// Start server
-const server = app.listen(PORT, () => {
-    console.log('🚀 Quiz App Server Started');
-    console.log('══════════════════════════════════════');
-    console.log(`📡 Server URL: http://localhost:${PORT}`);
-    console.log(`📊 MongoDB: ${process.env.MONGODB_URI}`);
-    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log('══════════════════════════════════════');
-    console.log(`📁 Frontend: http://localhost:${PORT}`);
-    console.log(`📁 Backend API: http://localhost:${PORT}/api`);
-    console.log('══════════════════════════════════════');
-});
+    // Start server
+    const server = app.listen(PORT, () => {
+        console.log('🚀 Quiz App Server Started');
+        console.log('══════════════════════════════════════');
+        console.log(`📡 Server URL: http://localhost:${PORT}`);
+        console.log(`📊 MongoDB: ${process.env.MONGODB_URI}`);
+        console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+        console.log('══════════════════════════════════════');
+        console.log(`📁 Frontend: http://localhost:${PORT}`);
+        console.log(`📁 Backend API: http://localhost:${PORT}/api`);
+        console.log('══════════════════════════════════════');
+    });
 
-// Graceful shutdown
-process.on('SIGTERM', () => {
-    console.log('🛑 SIGTERM received. Shutting down gracefully...');
-    server.close(() => {
-        console.log('✅ Server closed');
-        mongoose.connection.close(false, () => {
-            console.log('✅ MongoDB connection closed');
-            process.exit(0);
+    // Graceful shutdown
+    process.on('SIGTERM', () => {
+        console.log('🛑 SIGTERM received. Shutting down gracefully...');
+        server.close(() => {
+            console.log('✅ Server closed');
+            mongoose.connection.close(false, () => {
+                console.log('✅ MongoDB connection closed');
+                process.exit(0);
+            });
         });
     });
-});
 
-// Handle uncaught exceptions
-process.on('uncaughtException', (err) => {
-    console.error('💥 Uncaught Exception:', err);
-    process.exit(1);
-});
+    // Handle uncaught exceptions
+    process.on('uncaughtException', (err) => {
+        console.error('💥 Uncaught Exception:', err);
+        process.exit(1);
+    });
 
-process.on('unhandledRejection', (err) => {
-    console.error('💥 Unhandled Promise Rejection:', err);
-});
+    process.on('unhandledRejection', (err) => {
+        console.error('💥 Unhandled Promise Rejection:', err);
+    });
+}
+
+// Export the Express API for Vercel
+module.exports = app;
