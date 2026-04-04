@@ -429,7 +429,6 @@ async function startQuiz(quizId) {
 
 function loadQuestion() {
     if (currentQuestion >= questions.length) {
-        submitQuiz();
         return;
     }
 
@@ -453,11 +452,22 @@ function loadQuestion() {
     const savedAns = userAnswers[currentQuestion];
     if (savedAns) {
         const el = document.getElementById(`opt_${savedAns}`);
-        if (el) el.style.borderColor = '#667eea'; // just visual selection
+        if (el) el.classList.add('selected');
     }
 
     prevBtn.disabled = currentQuestion === 0;
-    nextBtn.innerHTML = currentQuestion === questions.length - 1 ? 'Finish' : 'Next';
+    
+    const submitQuizBtn = document.getElementById('submitQuizBtn');
+    if (currentQuestion === questions.length - 1) {
+        if (nextBtn) nextBtn.style.display = 'none';
+        if (submitQuizBtn) submitQuizBtn.style.display = 'block';
+    } else {
+        if (nextBtn) {
+            nextBtn.style.display = 'block';
+            nextBtn.innerHTML = 'Next Question <i class="fas fa-chevron-right" style="font-size: 0.8em; margin-left: 5px;"></i>';
+        }
+        if (submitQuizBtn) submitQuizBtn.style.display = 'none';
+    }
 }
 
 function selectAnswer(optId) {
@@ -476,8 +486,6 @@ function nextQuestion() {
     if (currentQuestion < questions.length - 1) {
         currentQuestion++;
         loadQuestion();
-    } else {
-        submitQuiz();
     }
 }
 
@@ -554,9 +562,52 @@ function restartQuiz() {
     }
 }
 
+function toggleQuizSidebar() {
+    const sidebar = document.getElementById('quizSidebar');
+    if (sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        return;
+    }
+
+    let attempted = 0;
+    userAnswers.forEach(ans => {
+        if (ans !== null && ans !== undefined) attempted++;
+    });
+    let left = questions.length - attempted;
+
+    document.getElementById('attemptedCount').textContent = attempted;
+    document.getElementById('leftCount').textContent = left;
+
+    const grid = document.getElementById('questionGrid');
+    grid.innerHTML = '';
+    questions.forEach((_, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'q-grid-btn';
+        if (userAnswers[idx]) btn.classList.add('attempted');
+        if (idx === currentQuestion) btn.classList.add('current');
+        btn.textContent = idx + 1;
+        btn.onclick = () => {
+            currentQuestion = idx;
+            loadQuestion();
+            sidebar.classList.remove('active');
+        };
+        grid.appendChild(btn);
+    });
+
+    sidebar.classList.add('active');
+}
+
+function submitQuizFromSidebar() {
+    document.getElementById('quizSidebar').classList.remove('active');
+    submitQuiz();
+}
+
 // Exports
 window.startQuiz = startQuiz;
 window.restartQuiz = restartQuiz;
+window.toggleQuizSidebar = toggleQuizSidebar;
+window.submitQuizFromSidebar = submitQuizFromSidebar;
+window.submitQuiz = submitQuiz;
 window.selectAnswer = selectAnswer;
 window.goHome = goHome;
 window.goBackToSubjects = goBackToSubjects;

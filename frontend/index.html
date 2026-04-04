@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/">
+    <!-- <base href="/"> Removed to allow file:// testing -->
     <title>QUIZI | Learning Dashboard</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -474,6 +474,35 @@
                 justify-content: flex-end;
             }
         }
+        
+        /* Question Grid Grid Item */
+        .q-grid-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .q-grid-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .q-grid-btn.attempted {
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+        .q-grid-btn.current {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 5px var(--primary);
+        }
     </style>
 </head>
 
@@ -495,7 +524,7 @@
                     <i class="fas fa-shield-alt"></i>
                 </button>
                 <button class="btn-icon" style="color: var(--danger); border-color: #fecaca; background: #fef2f2;"
-                    onclick="userLogout()" title="Logout">
+                    onclick="window.userLogout ? window.userLogout() : alert('Logout script not loaded')" title="Logout">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </div>
@@ -551,7 +580,10 @@
 
             <div id="quizContent" class="hidden">
                 <div class="quiz-header">
-                    <div style="font-weight: 600; color: var(--primary);">
+                    <div style="font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 12px;">
+                        <button id="menuBtn" class="btn-icon" onclick="toggleQuizSidebar()" title="Question Overview" style="width: 36px; height: 36px;">
+                            <i class="fas fa-bars"></i>
+                        </button>
                         <span id="progressText">Question 1 of 10</span>
                     </div>
                     <div class="timer-badge" id="timerText">
@@ -564,8 +596,9 @@
                 <div id="choicesBox" class="options-container">
                 </div>
 
-                <div style="margin-top: auto; padding-top: 40px; display: flex; justify-content: space-between;">
+                <div style="margin-top: auto; padding-top: 40px; display: flex; justify-content: space-between; align-items: center;">
                     <button id="prevBtn" class="btn-secondary" disabled>Previous</button>
+                    <button id="submitQuizBtn" class="btn-primary" style="background-color: var(--success); display: none;" onclick="submitQuiz()">Submit Quiz</button>
                     <button id="nextBtn" class="btn-primary">Next Question <i class="fas fa-chevron-right"
                             style="font-size: 0.8em; margin-left: 5px;"></i></button>
                 </div>
@@ -600,6 +633,34 @@
                 <button class="btn-secondary" onclick="closeModal()">Cancel</button>
                 <button id="confirmBtn" class="btn-primary" style="background-color: var(--danger);">Yes,
                     Proceed</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="quizSidebar" class="modal">
+        <div class="modal-content" style="max-height: 80vh; display: flex; flex-direction: column;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="font-size: 1.25rem; margin: 0;">Quiz Overview</h3>
+                <button onclick="toggleQuizSidebar()" class="btn-icon" style="width: 30px; height: 30px;"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div style="display: flex; justify-content: space-around; margin-bottom: 20px; padding: 10px; background: var(--bg-body); border-radius: var(--radius-md);">
+                <div class="text-center">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--success);" id="attemptedCount">0</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Attempted</div>
+                </div>
+                <div class="text-center">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--danger);" id="leftCount">0</div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted);">Left</div>
+                </div>
+            </div>
+
+            <div id="questionGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 12px; overflow-y: auto; padding: 5px 5px 20px 5px; max-height: 300px;">
+                <!-- Grid items generated by JS -->
+            </div>
+            
+            <div style="margin-top: 10px; padding-top: 15px; border-top: 1px solid var(--border-color);">
+                <button class="btn-primary" style="width: 100%; background-color: var(--success);" onclick="submitQuizFromSidebar()">Submit Quiz</button>
             </div>
         </div>
     </div>
