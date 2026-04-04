@@ -4,11 +4,17 @@ const MONGODB_URI = 'mongodb+srv://RamEllaboina:Sharanyaram1418@cluster0.piyusds
 
 const connectDB = async () => {
     try {
-        if (mongoose.connection.readyState >= 1) {
-            console.log('✅ MongoDB connection already established');
-            return;
-        }
-        await mongoose.connect(MONGODB_URI);
+        const options = {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+            socketTimeoutMS: 45000, // Close sockets after 45s
+            maxPoolSize: 10, // Maintain up to 10 socket connections
+            bufferMaxEntries: 0, // Disable mongoose buffering
+            bufferCommands: false, // Disable mongoose buffering
+        };
+
+        await mongoose.connect(MONGODB_URI, options);
         console.log('✅ MongoDB Connected Successfully');
 
         // Create default admin if not exists
@@ -33,7 +39,8 @@ const connectDB = async () => {
 
     } catch (error) {
         console.error('❌ MongoDB Connection Failed:', error.message);
-        // Do not process.exit(1) in a serverless environment! It will cause 502/500 errors.
+        // Retry connection after 5 seconds
+        setTimeout(connectDB, 5000);
     }
 };
 

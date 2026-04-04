@@ -17,8 +17,23 @@ const questionRoutes = require('./routes/questionRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Connect to MongoDB
-connectDB();
+// In serverless environments, connectDB() is NOT called once at startup.
+// Instead it is called inside a middleware before every request so the DB
+// is always ready, even on cold starts (fixes the 10s buffering timeout).
+const dbMiddleware = async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (err) {
+        console.error('DB connection failed:', err.message);
+        res.status(503).json({ success: false, message: 'Database unavailable. Please try again.' });
+    }
+};
+
+// Only connect once at startup when running locally
+if (!process.env.VERCEL) {
+    connectDB();
+}
 
 // Middleware
 app.use(cors({
@@ -36,6 +51,9 @@ app.use('/api', (req, res, next) => {
 
 // Static files (served from frontend directory)
 app.use(express.static(path.join(__dirname, '../frontend')));
+
+// Ensure DB is connected before any API route
+app.use('/api', dbMiddleware);
 
 // API Routes
 app.use('/api/auth', authRoutes);
@@ -97,12 +115,10 @@ const checkExpiredUsers = async () => {
 };
 
 if (!process.env.VERCEL) {
-    // Check every hour
+    // Cron jobs and server start only in local dev
     setInterval(checkExpiredUsers, 3600000);
-    // Run once on startup
     setTimeout(checkExpiredUsers, 5000);
 
-    // Start server
     const server = app.listen(PORT, () => {
         console.log('🚀 Quiz App Server Started');
         console.log('══════════════════════════════════════');

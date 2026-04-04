@@ -13,6 +13,23 @@ router.get('/public', async (req, res) => {
     }
 });
 
+// Get a single branch by ID (Public)
+router.get('/:id', async (req, res) => {
+    try {
+        const branch = await Branch.findById(req.params.id).select('name description isActive');
+        if (!branch) {
+            return res.status(404).json({ success: false, message: 'Branch not found' });
+        }
+        res.json({ success: true, branch });
+    } catch (error) {
+        // Handle invalid ObjectId format gracefully
+        if (error.name === 'CastError') {
+            return res.status(404).json({ success: false, message: 'Branch not found' });
+        }
+        res.status(500).json({ success: false, message: 'Failed to fetch branch' });
+    }
+});
+
 // Admin Routes below
 router.use(authMiddleware);
 router.use(adminMiddleware);
