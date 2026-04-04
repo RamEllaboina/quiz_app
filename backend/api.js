@@ -13,17 +13,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB with retry logic and better configuration
+// Connect to MongoDB with proper connection handling
 const connectDB = async () => {
   try {
     const options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
-      socketTimeoutMS: 45000, // Close sockets after 45s
+      serverSelectionTimeoutMS: 10000, // 10s timeout
+      socketTimeoutMS: 45000, // 45s socket timeout
       maxPoolSize: 10, // Maintain up to 10 socket connections
       bufferMaxEntries: 0, // Disable mongoose buffering
-      bufferCommands: false, // Disable mongoose buffering
+      bufferCommands: true, // Enable buffering to prevent connection errors
     };
 
     await mongoose.connect('mongodb+srv://RamEllaboina:Sharanyaram1418@cluster0.piyusds.mongodb.net/?appName=Cluster0', options);
@@ -103,6 +103,17 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+// MongoDB Connection Check Middleware
+const checkDBConnection = (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({ 
+      success: false, 
+      message: 'Database connection not ready' 
+    });
+  }
+  next();
+};
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ 
@@ -164,7 +175,7 @@ app.post('/api/init-data', async (req, res) => {
 });
 
 // Auth Routes
-app.post('/api/auth/register', async (req, res) => {
+app.post('/api/auth/register', checkDBConnection, async (req, res) => {
   try {
     const { username, email, password, branch } = req.body;
 
@@ -217,7 +228,7 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', checkDBConnection, async (req, res) => {
   try {
     const { username, password } = req.body;
 
