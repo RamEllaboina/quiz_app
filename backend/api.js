@@ -17,13 +17,9 @@ app.use(express.json());
 const connectDB = async () => {
   try {
     const options = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
       serverSelectionTimeoutMS: 10000, // 10s timeout
       socketTimeoutMS: 45000, // 45s socket timeout
       maxPoolSize: 10, // Maintain up to 10 socket connections
-      bufferMaxEntries: 0, // Disable mongoose buffering
-      bufferCommands: true, // Enable buffering to prevent connection errors
     };
 
     await mongoose.connect('mongodb+srv://RamEllaboina:Sharanyaram1418@cluster0.piyusds.mongodb.net/?appName=Cluster0', options);
